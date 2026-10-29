@@ -17,7 +17,7 @@ const SHOP = {
    ===================================================== */
 const PRODUCTS = [
   // Vegetables (price per kg)
-  { id: "tomato",   name: "Tomato",      ml: "തക്കാളി",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🍅", img: "img: images/tomato.jpg" },
+  { id: "tomato",   name: "Tomato",      ml: "തക്കാളി",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🍅", img: "images/tomato.jpg" },
   { id: "potato",   name: "Potato",      ml: "കിഴങ്ങ്",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🥔", img: "" },
   { id: "onion",    name: "Big Onion",   ml: "വലിയ ഉള്ളി",   cat: "Vegetables", price: 55, unit: "kg", emoji: "🧅", img: "" },
   { id: "okra",     name: "Ladies Finger", ml: "വെണ്ട",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🌿", img: "" },
