@@ -11,7 +11,7 @@ const SHOP = {
 /* =====================================================
    PRODUCTS
    - emoji is used as a picture until you add a real photo.
-   - To use real photos: put the file in /images and set img: "images/tomato.jpg"
+   - To use real photos: put the file in /images and set img: "images/Tomato.jpg"
    - unit "kg" = sold by weight, "pc" = sold per piece/pack
    - mrp is optional (shows a strike-through price + discount badge)
    ===================================================== */
