@@ -3,22 +3,17 @@
    ===================================================== */
 const SHOP = {
   name: "Marhaba Hypermarket",
-  // WhatsApp number with country code, digits only (India = 91).
   whatsapp: "919847283286",
   phoneDisplay: "9847283286",
 };
 
-/* =====================================================
-   PRODUCTS
-   - Set outOfStock: true to mark an item as unavailable.
-   ===================================================== */
 const PRODUCTS = [
   // Vegetables (price per kg)
   { id: "tomato",   name: "Tomato",      ml: "തക്കാളി",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🍅", img: "", outOfStock: false },
   { id: "potato",   name: "Potato",      ml: "കിഴങ്ങ്",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🥔", img: "", outOfStock: false },
   { id: "onion",    name: "Big Onion",   ml: "വലിയ ഉള്ളി",   cat: "Vegetables", price: 55, unit: "kg", emoji: "🧅", img: "", outOfStock: false },
   { id: "okra",     name: "Ladies Finger", ml: "വെണ്ട",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🌿", img: "", outOfStock: false },
-  { id: "beans",    name: "Long Beans",  ml: "പയർ",          cat: "Vegetables", price: 39, unit: "kg", emoji: "🫛", img: "", outOfStock: true }, // Example out of stock
+  { id: "beans",    name: "Long Beans",  ml: "പയർ",          cat: "Vegetables", price: 39, unit: "kg", emoji: "🫛", img: "", outOfStock: true },
   { id: "ilavan",   name: "Ilavan",      ml: "ഇളവൻ",         cat: "Vegetables", price: 29, unit: "kg", emoji: "🥒", img: "", outOfStock: false },
   { id: "cucumber", name: "Cucumber",    ml: "കക്കരി",       cat: "Vegetables", price: 19, unit: "kg", emoji: "🥒", img: "", outOfStock: false },
   { id: "cabbage",  name: "Cabbage",     ml: "കാബേജ്",       cat: "Vegetables", price: 19, unit: "kg", emoji: "🥬", img: "", outOfStock: false },
@@ -59,9 +54,6 @@ const PRODUCTS = [
   { id: "pistachio",    name: "Pistachio Spread",             cat: "Spreads & Frozen", price: 499, mrp: 599,  unit: "pc", emoji: "🥜", img: "", outOfStock: false },
 ];
 
-/* =====================================================
-   App code
-   ===================================================== */
 const $ = (id) => document.getElementById(id);
 const rupee = (n) => "₹" + (Math.round(n * 100) / 100).toString();
 
@@ -113,7 +105,6 @@ function renderGrid() {
   $("empty").hidden = list.length > 0;
 }
 
-/* ---------- Modal ---------- */
 function step(p) { return p.unit === "kg" ? 0.5 : 1; }
 function qtyLabel(p, q) { return p.unit === "kg" ? `${q} kg` : `${q} ${q === 1 ? "pc" : "pcs"}`; }
 
@@ -125,7 +116,7 @@ function updateModal() {
 
 function openModal(id) {
   current = PRODUCTS.find((p) => p.id === id);
-  if (!current || current.outOfStock) return; // Prevent opening modal for out-of-stock items
+  if (!current || current.outOfStock) return;
   qty = current.unit === "kg" ? 1 : 1;
   const p = current;
 
@@ -167,7 +158,6 @@ function changeQty(dir) {
   el.classList.add("bump");
 }
 
-/* ---------- Cart & Checkout ---------- */
 function addToCartFromModal() {
   if (!current) return;
   const existing = cart.find(item => item.product.id === current.id);
@@ -206,16 +196,19 @@ function closeCartDrawer() {
 function renderCartItems() {
   const container = $("cartItemsList");
   const emptyMsg = $("cartEmpty");
+  const checkoutSec = $("checkoutSection");
   const footer = $("cartFooter");
 
   if (cart.length === 0) {
     container.innerHTML = "";
     emptyMsg.style.display = "block";
+    checkoutSec.style.display = "none";
     footer.style.display = "none";
     return;
   }
 
   emptyMsg.style.display = "none";
+  checkoutSec.style.display = "block";
   footer.style.display = "block";
 
   container.innerHTML = cart.map(item => {
@@ -291,7 +284,6 @@ function checkoutWhatsApp() {
   window.open(url, "_blank");
 }
 
-/* ---------- Events ---------- */
 $("tabs").addEventListener("click", (e) => {
   const b = e.target.closest(".tab");
   if (!b) return;
@@ -331,7 +323,6 @@ $("btnDelivery").addEventListener("click", () => setFulfillment("Delivery"));
 $("btnPickup").addEventListener("click", () => setFulfillment("Pickup"));
 $("whatsappCheckoutBtn").addEventListener("click", checkoutWhatsApp);
 
-/* ---------- Dark / light theme ---------- */
 const root = document.documentElement;
 
 function applyTheme(t) {
@@ -352,11 +343,10 @@ $("themeBtn").addEventListener("click", () => {
 
 applyTheme(root.getAttribute("data-theme") || "light");
 
-/* ---------- Init ---------- */
 $("callLink").href = "tel:+" + SHOP.whatsapp;
 $("footCall").href = "tel:+" + SHOP.whatsapp;
 $("footCall").textContent = "📞 " + SHOP.phoneDisplay;
 renderTabs();
 renderGrid();
 updateCartBadge();
-                                  
+   
