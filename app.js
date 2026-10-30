@@ -13,7 +13,7 @@ const PRODUCTS = [
   { id: "potato",   name: "Potato",      ml: "കിഴങ്ങ്",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🥔", img: "", outOfStock: false },
   { id: "onion",    name: "Big Onion",   ml: "വലിയ ഉള്ളി",   cat: "Vegetables", price: 55, unit: "kg", emoji: "🧅", img: "", outOfStock: false },
   { id: "okra",     name: "Ladies Finger", ml: "വെണ്ട",      cat: "Vegetables", price: 29, unit: "kg", emoji: "🌿", img: "", outOfStock: false },
-  { id: "beans",    name: "Long Beans",  ml: "പയർ",          cat: "Vegetables", price: 39, unit: "kg", emoji: "🫛", img: "", outOfStock: true },
+  { id: "beans",    name: "Long Beans",  ml: "പയർ",          cat: "Vegetables", price: 39, unit: "kg", emoji: "🫛", img: "", outOfStock: false },
   { id: "ilavan",   name: "Ilavan",      ml: "ഇളവൻ",         cat: "Vegetables", price: 29, unit: "kg", emoji: "🥒", img: "", outOfStock: false },
   { id: "cucumber", name: "Cucumber",    ml: "കക്കരി",       cat: "Vegetables", price: 19, unit: "kg", emoji: "🥒", img: "", outOfStock: false },
   { id: "cabbage",  name: "Cabbage",     ml: "കാബേജ്",       cat: "Vegetables", price: 19, unit: "kg", emoji: "🥬", img: "", outOfStock: false },
@@ -51,7 +51,7 @@ const PRODUCTS = [
   { id: "nutella-750",  name: "Nutella 750gm",                cat: "Spreads & Frozen", price: 599, mrp: 1100, unit: "pc", emoji: "🍫", img: "", outOfStock: false },
   { id: "nutella-350",  name: "Nutella 350gm",                cat: "Spreads & Frozen", price: 329, mrp: 429,  unit: "pc", emoji: "🍫", img: "", outOfStock: false },
   { id: "biscoff",      name: "Biscoff Spread 400gm",         cat: "Spreads & Frozen", price: 499, mrp: 649,  unit: "pc", emoji: "🍯", img: "", outOfStock: false },
-  { id: "pistachio",    name: "Pistachio Spread",             cat: "Spreads & Frozen", price: 499, mrp: 599,  unit: "pc", emoji: "🥜", img: "", outOfStock: false },
+  { id: "pistachio",    name: "Pistachio Spread",             cat: "Spreads & Frozen", price: 499, mrp: 599,  unit: "pc", emoji: "🥜", img: "", outOfStock: true },
 ];
 
 const $ = (id) => document.getElementById(id);
