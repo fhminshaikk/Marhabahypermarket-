@@ -51,7 +51,7 @@ const PRODUCTS = [
   { id: "nutella-750",  name: "Nutella 750gm",                cat: "Spreads & Frozen", price: 599, mrp: 1100, unit: "pc", emoji: "🍫", img: "", outOfStock: false },
   { id: "nutella-350",  name: "Nutella 350gm",                cat: "Spreads & Frozen", price: 329, mrp: 429,  unit: "pc", emoji: "🍫", img: "", outOfStock: false },
   { id: "biscoff",      name: "Biscoff Spread 400gm",         cat: "Spreads & Frozen", price: 499, mrp: 649,  unit: "pc", emoji: "🍯", img: "", outOfStock: false },
-  { id: "pistachio",    name: "Pistachio Spread",             cat: "Spreads & Frozen", price: 499, mrp: 599,  unit: "pc", emoji: "🥜", img: "", outOfStock: true },
+  { id: "pistachio",    name: "Pistachio Spread",             cat: "Spreads & Frozen", price: 499, mrp: 599,  unit: "pc", emoji: "🥜", img: "", outOfStock: false},
 ];
 
 const $ = (id) => document.getElementById(id);
