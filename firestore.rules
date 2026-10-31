@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Change this to the email you use to sign in on admin.html
+    function isOwner() {
+      return request.auth != null && request.auth.token.email == 'OWNER_EMAIL_HERE';
+    }
+
+    // Product list: everyone can read, only the owner can change
+    match /products/{id} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+
+    // Ratings: everyone can read and add ONE star rating (1-5) at a time.
+    // Nobody except the owner can lower, delete or overwrite the totals.
+    match /ratings/{id} {
+      allow read: if true;
+
+      allow create: if request.resource.data.keys().hasOnly(['sum', 'count'])
+                    && request.resource.data.count == 1
+                    && request.resource.data.sum >= 1
+                    && request.resource.data.sum <= 5;
+
+      allow update: if isOwner()
+                    || (request.resource.data.keys().hasOnly(['sum', 'count'])
+                        && request.resource.data.count == resource.data.count + 1
+                        && request.resource.data.sum >= resource.data.sum + 1
+                        && request.resource.data.sum <= resource.data.sum + 5);
+
+      allow delete: if isOwner();
+    }
+  }
+}
