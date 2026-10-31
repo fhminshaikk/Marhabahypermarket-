@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marhaba Hypermarket | Thengol, Othukkungal</title>
+  <meta name="description" content="Order fresh vegetables and groceries from Marhaba Hypermarket through WhatsApp." />
+  <meta name="theme-color" content="#0f7a3a" />
+  <link rel="stylesheet" href="style.css?v=6" />
+  <!-- Apply the saved theme before the page paints (prevents a white flash) -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("marhaba-theme"); } catch (e) {}
+      if (!t) t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top" aria-label="Marhaba Hypermarket home">
+        <!-- Replace with <img src="images/logo.png"> once you add your logo file -->
+        <span class="logo-mark" aria-hidden="true">🍏</span>
+        <span class="brand-text">
+          <strong>MARHABA</strong>
+          <small>HYPERMARKET</small>
+        </span>
+      </a>
+      <div class="search">
+        <input id="search" type="search" placeholder="Search products..." autocomplete="off" />
+      </div>
+      <button id="themeBtn" class="theme-btn" type="button" aria-label="Switch to dark theme" title="Dark / light theme">
+        <svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button id="cartBtn" class="cart-btn" type="button" aria-label="Open cart" title="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2L21 8H6"/></svg>
+        <span id="cartBadge" class="badge-n">0</span>
+      </button>
+      <a id="callLink" class="call-btn" href="#" aria-label="Call the shop">📞<span class="txt"> Call</span></a>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="pill">Soft Launch Offer</span>
+        <h1>Fresh prices.<br />A new shopping experience.</h1>
+        <p>Pick your products and send your order straight to the shop on WhatsApp.</p>
+        <p class="addr">📍 MA Square, Thengol, Othukkungal</p>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <nav class="tabs" id="tabs" aria-label="Categories"></nav>
+    <p id="count" class="count"></p>
+    <section id="grid" class="grid" aria-live="polite"></section>
+    <p id="empty" class="empty" hidden>No products found.</p>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <strong>Marhaba Hypermarket</strong> · MA Square, Thengol, Othukkungal<br />
+      <a id="footCall" href="#"></a> · Instagram: Marhaba_group
+    </div>
+  </footer>
+
+  <!-- Floating cart bar (phones) -->
+  <button id="cartBar" class="cartbar" type="button" aria-hidden="true" tabindex="-1">
+    <span class="cb-left"><span id="cbIcon" class="cb-icon">🛒</span><span id="cbText"></span></span>
+    <span class="cb-right">View cart →</span>
+  </button>
+
+  <!-- Product details popup -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="backdrop" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mName">
+      <button class="close" data-close aria-label="Close">✕</button>
+      <div class="m-media" id="mMedia"></div>
+      <div class="m-body" id="mBody">
+        <span class="tag" id="mCat"></span>
+        <h2 id="mName"></h2>
+        <p class="ml" id="mMl"></p>
+        <div class="rate-sum" id="mRateSum" hidden></div>
+        <div class="price-row">
+          <span class="price" id="mPrice"></span>
+          <span class="mrp" id="mMrp"></span>
+          <span class="save" id="mSave"></span>
+        </div>
+
+        <p class="stock-note">Currently out of stock. Please check again later.</p>
+
+        <div class="qty-row">
+          <span>Quantity</span>
+          <div class="qty">
+            <button id="minus" aria-label="Decrease">−</button>
+            <span id="qtyVal">1</span>
+            <button id="plus" aria-label="Increase">+</button>
+          </div>
+        </div>
+        <div class="total-row">Total: <strong id="mTotal"></strong></div>
+
+        <div class="m-actions">
+          <button id="addBtn" class="add-btn" type="button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.4a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2L21 8H6"/></svg>
+            Add to cart
+          </button>
+          <button id="orderBtn" class="order-btn" type="button">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.17c-.25.7-1.45 1.34-2 1.39-.52.05-1 .24-3.38-.7-2.85-1.12-4.67-4.04-4.81-4.23-.14-.19-1.15-1.53-1.15-2.92 0-1.4.73-2.08 1-2.36.26-.28.57-.35.76-.35h.55c.18 0 .42-.07.65.5.25.58.83 2.01.9 2.16.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.3.37-.43.5-.14.14-.29.3-.12.58.17.28.74 1.22 1.6 1.98 1.1.98 2.03 1.28 2.31 1.42.28.14.45.12.62-.07.17-.19.72-.84.91-1.13.19-.28.38-.24.64-.14.26.09 1.65.78 1.93.92.28.14.47.21.54.33.07.12.07.69-.18 1.39z"/></svg>
+            Order through WhatsApp
+          </button>
+        </div>
+
+        <!-- Customer rating (shown only when the cloud backend is set up) -->
+        <div class="rate-box" id="rateBox" hidden>
+          <span class="rate-label" id="rateLabel">Rate this product</span>
+          <div class="stars" id="stars" role="radiogroup" aria-label="Rate this product">
+            <button type="button" data-star="1" aria-label="1 star">★</button>
+            <button type="button" data-star="2" aria-label="2 stars">★</button>
+            <button type="button" data-star="3" aria-label="3 stars">★</button>
+            <button type="button" data-star="4" aria-label="4 stars">★</button>
+            <button type="button" data-star="5" aria-label="5 stars">★</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart drawer -->
+  <div id="drawer" class="drawer" aria-hidden="true">
+    <div class="backdrop" data-cart-close></div>
+    <aside id="panel" class="panel empty" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+      <header class="panel-head">
+        <h2 id="cartTitle">Your cart</h2>
+        <button class="close-sm" data-cart-close aria-label="Close cart">✕</button>
+      </header>
+
+      <div class="panel-body">
+        <div class="cart-empty">
+          <span class="big">🛒</span>
+          <strong>Your cart is empty</strong>
+          <p>Tap the + button on any product to add it.</p>
+        </div>
+
+        <ul id="cartList" class="cart-list"></ul>
+
+        <form id="checkout" class="checkout" novalidate onsubmit="return false">
+          <h3>How would you like your order?</h3>
+          <div class="seg" id="seg" role="radiogroup" aria-label="Delivery or pickup">
+            <span class="seg-pill" id="segPill"></span>
+            <button type="button" role="radio" data-mode="delivery" class="active" aria-checked="true">🛵 Home delivery</button>
+            <button type="button" role="radio" data-mode="pickup" aria-checked="false">🏬 Store pickup</button>
+          </div>
+
+          <label class="field">
+            <span>Your name <i class="req">*</i></span>
+            <input id="fName" type="text" autocomplete="name" placeholder="Enter your name" />
+          </label>
+
+          <label class="field">
+            <span>Mobile number <i class="req">*</i></span>
+            <input id="fPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="16" placeholder="10-digit mobile number" />
+          </label>
+
+          <div id="addrWrap" class="collapse open">
+            <div class="collapse-inner"><div class="pad">
+              <label class="field">
+                <span>Delivery address <i class="req">*</i></span>
+                <textarea id="fAddr" rows="3" autocomplete="street-address" placeholder="House name / number, street, landmark"></textarea>
+              </label>
+              <p class="hint">Delivery charges and timing will be confirmed by the shop on WhatsApp.</p>
+            </div></div>
+          </div>
+
+          <div id="pickupWrap" class="collapse">
+            <div class="collapse-inner"><div class="pad">
+              <div class="note-box">Collect your order from the shop:<br /><strong id="pickupAddr"></strong></div>
+            </div></div>
+          </div>
+
+          <label class="field">
+            <span>Note for the shop (optional)</span>
+            <input id="fNote" type="text" placeholder="e.g. ripe tomatoes please" />
+          </label>
+        </form>
+      </div>
+
+      <footer class="panel-foot">
+        <div class="sum-row"><span>Total</span><strong id="cartTotal">₹0</strong></div>
+        <button id="sendBtn" class="order-btn" type="button">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.17c-.25.7-1.45 1.34-2 1.39-.52.05-1 .24-3.38-.7-2.85-1.12-4.67-4.04-4.81-4.23-.14-.19-1.15-1.53-1.15-2.92 0-1.4.73-2.08 1-2.36.26-.28.57-.35.76-.35h.55c.18 0 .42-.07.65.5.25.58.83 2.01.9 2.16.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.3.37-.43.5-.14.14-.29.3-.12.58.17.28.74 1.22 1.6 1.98 1.1.98 2.03 1.28 2.31 1.42.28.14.45.12.62-.07.17-.19.72-.84.91-1.13.19-.28.38-.24.64-.14.26.09 1.65.78 1.93.92.28.14.47.21.54.33.07.12.07.69-.18 1.39z"/></svg>
+          Send order on WhatsApp
+        </button>
+        <button id="clearBtn" class="link-btn" type="button">Clear cart</button>
+      </footer>
+    </aside>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="firebase-config.js?v=6"></script>
+  <script src="products.js?v=6"></script>
+  <script src="app.js?v=6"></script>
+  <script type="module" src="cloud.js?v=6"></script>
+</body>
+</html>

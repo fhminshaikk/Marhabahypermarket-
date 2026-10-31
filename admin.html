@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Marhaba Admin</title>
+  <link rel="stylesheet" href="style.css?v=6" />
+  <link rel="stylesheet" href="admin.css?v=6" />
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("marhaba-theme"); } catch (e) {}
+      if (!t) t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+<body class="admin">
+
+  <header class="a-top">
+    <div class="a-wrap a-top-in">
+      <div class="a-brand"><span>🍏</span><strong>Marhaba Admin</strong></div>
+      <div class="a-right" id="aRight" hidden>
+        <span class="a-who" id="who"></span>
+        <a class="btn ghost sm" href="index.html">View shop</a>
+        <button class="btn ghost sm" id="signOut" type="button">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="a-wrap">
+
+    <!-- Loading -->
+    <section id="viewLoading" class="a-card center">
+      <p class="muted">Loading…</p>
+    </section>
+
+    <!-- Backend not set up yet -->
+    <section id="viewSetup" class="a-card" hidden>
+      <h1>One-time setup needed</h1>
+      <p>The admin editor saves your changes to a free Firebase database, so it needs to be connected first.</p>
+      <p id="setupFail" class="err" hidden>Firebase is filled in but could not be reached. Check your internet and the values in <code>firebase-config.js</code>.</p>
+      <p>Follow <strong>"Turn on ratings and the admin editor"</strong> in <code>README.md</code> (about 10 minutes), then reload this page.</p>
+    </section>
+
+    <!-- Login -->
+    <section id="viewLogin" class="a-card login" hidden>
+      <h1>Shop owner login</h1>
+      <form id="loginForm" novalidate>
+        <label class="field"><span>Email</span><input id="lEmail" type="email" autocomplete="username" placeholder="owner@example.com" /></label>
+        <label class="field"><span>Password</span><input id="lPass" type="password" autocomplete="current-password" placeholder="Your password" /></label>
+        <p id="lErr" class="err" hidden></p>
+        <button class="btn primary" id="lBtn" type="submit">Sign in</button>
+      </form>
+    </section>
+
+    <!-- Product manager -->
+    <section id="viewApp" hidden>
+      <div class="a-tools">
+        <input id="aSearch" type="search" placeholder="Search products…" autocomplete="off" />
+        <button class="btn primary" id="addNew" type="button">+ Add product</button>
+      </div>
+      <p class="muted a-count" id="aCount"></p>
+
+      <div id="importBox" class="a-card center" hidden>
+        <h2>No products saved yet</h2>
+        <p class="muted">Copy the starter list (33 products from your flyers) into the database, then edit them here.</p>
+        <button class="btn primary" id="importBtn" type="button">Import starter products</button>
+      </div>
+
+      <ul id="aList" class="a-list"></ul>
+    </section>
+  </main>
+
+  <!-- Product editor -->
+  <div id="ed" class="ed" aria-hidden="true">
+    <div class="backdrop" data-ed-close></div>
+    <div class="ed-sheet" role="dialog" aria-modal="true" aria-labelledby="edTitle">
+      <header class="ed-head">
+        <h2 id="edTitle">Add product</h2>
+        <button class="close-sm" data-ed-close aria-label="Close">✕</button>
+      </header>
+
+      <form class="ed-body" id="edForm" novalidate onsubmit="return false">
+        <div class="photo-row">
+          <button type="button" class="photo" id="photoBtn" aria-label="Choose a photo">
+            <span id="photoPreview">📷</span>
+            <small>Tap to add photo</small>
+          </button>
+          <input id="photoFile" type="file" accept="image/*" hidden />
+          <div class="photo-side">
+            <label class="field"><span>Emoji (used if no photo)</span><input id="eEmoji" type="text" maxlength="4" placeholder="🍎" /></label>
+            <button type="button" class="link-btn" id="photoClear" hidden>Remove photo</button>
+          </div>
+        </div>
+
+        <label class="field"><span>Product name <i class="req">*</i></span><input id="eName" type="text" placeholder="Fresh Apple" /></label>
+        <label class="field"><span>Malayalam name (optional)</span><input id="eMl" type="text" placeholder="ആപ്പിൾ" /></label>
+        <label class="field"><span>Category <i class="req">*</i></span><input id="eCat" type="text" list="catList" placeholder="Fruits" /></label>
+        <datalist id="catList"></datalist>
+
+        <div class="field">
+          <span>Sold by</span>
+          <div class="seg" id="eUnit" role="radiogroup" aria-label="Sold by">
+            <span class="seg-pill" id="eUnitPill"></span>
+            <button type="button" role="radio" data-unit="kg" class="active">Per kg</button>
+            <button type="button" role="radio" data-unit="pc">Per piece / pack</button>
+          </div>
+        </div>
+
+        <div class="two">
+          <label class="field"><span>Price (₹) <i class="req">*</i></span><input id="ePrice" type="number" inputmode="decimal" min="0" step="any" placeholder="180" /></label>
+          <label class="field"><span>Offer price (₹)</span><input id="eOffer" type="number" inputmode="decimal" min="0" step="any" placeholder="150" /></label>
+        </div>
+        <p class="hint" id="priceHint">Leave Offer price empty if there is no discount.</p>
+
+        <div class="avail-row">
+          <div><strong>Product availability</strong><small class="muted" id="availText">Available</small></div>
+          <label class="switch"><input id="eAvail" type="checkbox" checked /><i></i></label>
+        </div>
+
+        <p id="edErr" class="err" hidden></p>
+      </form>
+
+      <footer class="ed-foot">
+        <button class="btn danger" id="delBtn" type="button" hidden>Delete</button>
+        <button class="btn ghost" id="resetRate" type="button" hidden>Reset ratings</button>
+        <span class="grow"></span>
+        <button class="btn primary" id="saveBtn" type="button">Save product</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="firebase-config.js?v=6"></script>
+  <script src="products.js?v=6"></script>
+  <script type="module" src="admin.js?v=6"></script>
+</body>
+</html>
