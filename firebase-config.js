@@ -13,5 +13,7 @@ window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyCTE9OVDrW_KNFAYIC1ln3SKbE-1J5Zd-g",
   authDomain: "marhaba-393c9.firebaseapp.com",
   projectId: "marhaba-393c9",
+    storageBucket:"marhaba-393c9.firebasestorage.app",
+       messagingSenderId:"35411284725",
   appId: "1:35411284725:web:8fb5ca6afc169a6d94ebbc",
 };
