@@ -10,8 +10,8 @@
    from your free Firebase project and paste them below.
    ===================================================== */
 window.FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyCTE9OVDrW_KNFAYIC1ln3SKbE-1J5Zd-g",
+  authDomain: "marhaba-393c9.firebaseapp.com",
+  projectId: "marhaba-393c9",
+  appId: "1:35411284725:web:8fb5ca6afc169a6d94ebbc",
 };
